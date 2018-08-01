@@ -27,5 +27,5 @@
     "ios/": true
   },
   // Set the default
-  "editor.formatOnSave": false
+  "editor.formatOnSave": true
 }

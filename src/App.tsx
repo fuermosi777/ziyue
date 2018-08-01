@@ -1,23 +1,16 @@
 import * as React from 'react';
-import { StyleSheet, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SogouWeb } from './components/SogouWeb';
+import { RootNavigator } from './components/Nav';
 
 type Props = {};
 export default class App extends React.Component<Props> {
-  private sogou: SogouWeb | null = null;
-
-  handlePressed = () => {
-    if (this.sogou) {
-      this.sogou.search('包邮');
-    }
-  }
-
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <Button onPress={this.handlePressed} title="search"/>
-        <SogouWeb ref={sogou => this.sogou = sogou}/>
-      </SafeAreaView>
+      <View style={styles.container}>
+        <SogouWeb />
+        <RootNavigator />
+      </View>
     );
   }
 }
