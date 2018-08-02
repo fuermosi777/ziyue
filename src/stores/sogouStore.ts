@@ -2,7 +2,6 @@ import { observable, action } from 'mobx';
 import { NativeSyntheticEvent, WebViewMessageEventData, WebView } from 'react-native';
 import { IAccount } from '../interfaces/account';
 import { ISogouSearchAccountResult } from '../interfaces/sogou';
-import { db } from '../utils/database';
 
 enum State {
   Idle,

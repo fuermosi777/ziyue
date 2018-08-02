@@ -10,10 +10,11 @@
   "dependencies": {
     "mobx": "^5.0.3",
     "mobx-react": "^5.2.3",
-    "pouchdb": "^7.0.0",
+    "pouchdb-react-native": "^6.4.1",
     "react": "16.4.1",
     "react-native": "0.56.0",
-    "react-navigation": "^2.9.3"
+    "react-navigation": "^2.9.3",
+    "rn-fetch-blob": "^0.10.12"
   },
   "devDependencies": {
     "@types/pouchdb": "^6.3.2",

@@ -1,1 +1,1 @@
-declare module "@shoutem/ui"
+declare module 'rn-fetch-blob';

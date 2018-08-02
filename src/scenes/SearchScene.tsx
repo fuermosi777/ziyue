@@ -13,6 +13,7 @@ import { sogouStore } from '../stores/sogouStore';
 import { observer } from 'mobx-react';
 import { IAccount } from '../interfaces/account';
 import { ListItem } from '../components/ListItem';
+import { accountStore } from '../stores/accountStore';
 
 @observer
 export class SearchScene extends React.Component<Props> {
@@ -21,6 +22,9 @@ export class SearchScene extends React.Component<Props> {
     if (query) {
       sogouStore.searchInSogou(query);
     }
+  };
+  private handleAddAccountPressed = (account: IAccount) => {
+    accountStore.followAccount(account);
   };
   render() {
     return (
@@ -41,7 +45,7 @@ export class SearchScene extends React.Component<Props> {
           renderItem={({ item }) => {
             return (
               <ListItem
-                onPress={() => {}}
+                onPress={() => this.handleAddAccountPressed(item)}
                 title={item.name}
                 subtitle={item.account}
                 thumbnailUrl={item.imgUrl}
