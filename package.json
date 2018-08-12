@@ -8,6 +8,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "blueimp-md5": "^2.10.0",
+    "cheerio-without-node-native": "^0.20.2",
     "mobx": "^5.0.3",
     "mobx-react": "^5.2.3",
     "pouchdb-react-native": "^6.4.1",
@@ -17,6 +19,7 @@
     "rn-fetch-blob": "^0.10.12"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.8",
     "@types/pouchdb": "^6.3.2",
     "@types/react": "^16.4.7",
     "@types/react-native": "^0.56.4",

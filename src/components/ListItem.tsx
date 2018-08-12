@@ -14,7 +14,6 @@ export class ListItem extends React.PureComponent<Props> {
   };
   render() {
     const { onPress, thumbnailUrl, title, subtitle } = this.props;
-    console.log(subtitle);
     return (
       <TouchableOpacity style={styles.container} onPress={onPress}>
         {thumbnailUrl ? (

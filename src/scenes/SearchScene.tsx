@@ -15,16 +15,33 @@ import { IAccount } from '../interfaces/account';
 import { ListItem } from '../components/ListItem';
 import { accountStore } from '../stores/accountStore';
 
+interface State {
+  accountList: IAccount[];
+  hasNext: boolean;
+}
+
 @observer
-export class SearchScene extends React.Component<Props> {
-  private handleSearch = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
-    const query = e.nativeEvent.text;
-    if (query) {
-      sogouStore.searchInSogou(query);
+export class SearchScene extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      accountList: [],
+      hasNext: false,
+    };
+  }
+  private handleSearch = async (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+    try {
+      const query = e.nativeEvent.text;
+      if (query) {
+        const result = await sogouStore.searchAccounts(query);
+        this.setState({ accountList: result.items, hasNext: result.hasNext });
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
   private handleAddAccountPressed = (account: IAccount) => {
-    accountStore.followAccount(account);
+    accountStore.addAccount(account);
   };
   render() {
     return (
@@ -40,8 +57,8 @@ export class SearchScene extends React.Component<Props> {
           />
         </View>
         <FlatList<IAccount>
-          data={sogouStore.accountList}
-          keyExtractor={(item) => item.name}
+          data={this.state.accountList}
+          keyExtractor={(item) => item.account}
           renderItem={({ item }) => {
             return (
               <ListItem

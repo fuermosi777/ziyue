@@ -1,15 +1,21 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { SogouWeb } from './components/SogouWeb';
 import { RootNavigator } from './components/Nav';
+import { sogouStore } from './stores/sogouStore';
+import { observer } from 'mobx-react';
+import { PreloadModal } from './components/PreloadModal';
+import { LoadingIndicator } from './components/LoadingIndicator';
 
 type Props = {};
+
+@observer
 export default class App extends React.Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <SogouWeb />
         <RootNavigator />
+        <PreloadModal visible={sogouStore.isWorkerVisible}>{sogouStore.worker}</PreloadModal>
+        <LoadingIndicator show={sogouStore.worker !== null} label={sogouStore.status} />
       </View>
     );
   }
@@ -18,5 +24,6 @@ export default class App extends React.Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'relative',
   },
 });
