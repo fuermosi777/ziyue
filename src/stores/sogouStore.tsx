@@ -42,6 +42,9 @@ class SogouStore {
           onVerify={() => {
             this.showWorker();
           }}
+          onPageChange={() => {
+            this.hideWorker();
+          }}
         />
       );
     });
@@ -66,6 +69,9 @@ class SogouStore {
           }}
           onVerify={() => {
             this.showWorker();
+          }}
+          onPageChange={() => {
+            this.hideWorker();
           }}
         />
       );
@@ -92,6 +98,9 @@ class SogouStore {
           onVerify={() => {
             this.showWorker();
           }}
+          onPageChange={() => {
+            this.hideWorker();
+          }}
         />
       );
     });
@@ -99,6 +108,9 @@ class SogouStore {
 
   @action
   public refreshPosts = async (accounts: IAccountDoc[]) => {
+    // Do nothing if working.
+    if (this.status !== '') return;
+
     for (let account of accounts) {
       try {
         let accountList = await this.searchAccounts(account.account);
@@ -120,13 +132,20 @@ class SogouStore {
           } catch (err) {}
 
           let postContent = await this.getPostContent(post.link, post.title);
-          await postStore.addPost(post, account, postContent);
+
+          this.status = `解析${normalizeText(post.title)}...`;
+          try {
+            await postStore.addPost(post, account, postContent);
+          } catch (err) {
+            throw err;
+          }
         }
       } catch (err) {
-        console.log(`Download account ${account.name} failed. ${err.message}.`);
+        console.log(`Add post of account ${account.name} halted. ${err.message}.`);
         continue;
       }
     }
+    this.status = '';
   };
 
   @action

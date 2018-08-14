@@ -16,6 +16,7 @@ export interface Props<R> {
   onError(err: Error): void;
   onVerify(): void;
   onEnd(): void;
+  onPageChange(): void;
 }
 
 interface State {
@@ -128,6 +129,10 @@ export class SogouWeb<R> extends React.Component<Props<R>, State> {
     }
   };
 
+  private handleNavigationStateChange = () => {
+    this.props.onPageChange();
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -142,6 +147,7 @@ export class SogouWeb<R> extends React.Component<Props<R>, State> {
             onLoad={this.handleLoad}
             onLoadEnd={this.handleLoadEnd}
             onLoadStart={this.handleLoadStart}
+            onNavigationStateChange={this.handleNavigationStateChange}
           />
         ) : null}
       </View>

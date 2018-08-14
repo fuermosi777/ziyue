@@ -42,6 +42,7 @@ export class SearchScene extends React.Component<Props, State> {
   };
   private handleAddAccountPressed = (account: IAccount) => {
     accountStore.addAccount(account);
+    this.props.navigation.goBack();
   };
   render() {
     return (

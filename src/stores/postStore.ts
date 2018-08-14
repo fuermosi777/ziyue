@@ -24,6 +24,11 @@ class PostStore {
       formattedHtml,
       'utf8'
     );
+    try {
+      await db.account.get(account.account);
+    } catch (err) {
+      throw new Error(`Account ${account.name} does not exist any more.`);
+    }
     let postDoc: IPostDoc = {
       _id: id,
       title: post.title,
