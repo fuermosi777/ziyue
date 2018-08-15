@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     tintColor: '#E22856',
   },
   navTileLabel: {
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.MainText,
   },
   contentList: {},
@@ -164,17 +164,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentAccountAvatar: {
-    width: 18,
-    height: 18,
+    width: 20,
+    height: 20,
     borderRadius: 4,
     marginRight: 10,
   },
   contentAccountName: {
     color: Colors.SubText,
-    fontSize: 13,
+    fontSize: 14,
   },
   contentTitle: {
-    fontSize: 14,
+    fontSize: 16,
     color: Colors.MainText,
+    lineHeight: 20,
   },
 });

@@ -7,6 +7,7 @@ import {
   NativeSyntheticEvent,
   TextInputSubmitEditingEventData,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import { NavigationTransitionProps as Props } from 'react-navigation';
 import { sogouStore } from '../stores/sogouStore';
@@ -14,6 +15,7 @@ import { observer } from 'mobx-react';
 import { IAccount } from '../interfaces/account';
 import { ListItem } from '../components/ListItem';
 import { accountStore } from '../stores/accountStore';
+import { Colors } from '../constants/colors';
 
 interface State {
   accountList: IAccount[];
@@ -57,20 +59,25 @@ export class SearchScene extends React.Component<Props, State> {
             placeholderTextColor="#D7DDE6"
           />
         </View>
-        <FlatList<IAccount>
-          data={this.state.accountList}
-          keyExtractor={(item) => item.account}
-          renderItem={({ item }) => {
-            return (
-              <ListItem
-                onPress={() => this.handleAddAccountPressed(item)}
-                title={item.name}
-                subtitle={item.account}
-                thumbnailUrl={item.imgUrl}
-              />
-            );
-          }}
-        />
+        {sogouStore.searchStatus !== '' ? (
+          <ActivityIndicator size="small" style={styles.loader} />
+        ) : (
+          <FlatList<IAccount>
+            data={this.state.accountList}
+            keyExtractor={(item) => item.account}
+            contentContainerStyle={styles.list}
+            renderItem={({ item }) => {
+              return (
+                <ListItem
+                  onPress={() => this.handleAddAccountPressed(item)}
+                  title={item.name}
+                  subtitle={item.account}
+                  thumbnailUrl={item.imgUrl}
+                />
+              );
+            }}
+          />
+        )}
       </SafeAreaView>
     );
   }
@@ -79,7 +86,7 @@ export class SearchScene extends React.Component<Props, State> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.LightBg,
   },
   header: {
     paddingHorizontal: 10,
@@ -87,6 +94,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#F6F7F8',
     justifyContent: 'center',
+    backgroundColor: Colors.LightContentBg,
+  },
+  list: {
+    paddingHorizontal: 15,
+    paddingTop: 10,
+  },
+  loader: {
+    marginTop: 40,
   },
   input: {
     fontSize: 16,

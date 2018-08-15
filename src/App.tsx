@@ -15,6 +15,9 @@ export default class App extends React.Component<Props> {
       <View style={styles.container}>
         <RootNavigator />
         <PreloadModal visible={sogouStore.isWorkerVisible}>{sogouStore.worker}</PreloadModal>
+        <PreloadModal visible={sogouStore.isSearchWorkerVisible}>
+          {sogouStore.searchWorker}
+        </PreloadModal>
         <LoadingIndicator show={sogouStore.status !== ''} label={sogouStore.status} />
       </View>
     );

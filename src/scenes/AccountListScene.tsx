@@ -17,9 +17,6 @@ export class AccountListScene extends React.Component<Props> {
     super(props);
   }
   private handleAccountPressed = (account: IAccountDoc) => {
-    // this.props.navigation.navigate('Account', {
-    //   account,
-    // });
     sogouStore.killWorker();
     accountStore.removeAccount(account);
   };
@@ -34,6 +31,7 @@ export class AccountListScene extends React.Component<Props> {
         <FlatList<IAccountDoc>
           data={accountStore.accounts}
           keyExtractor={(item) => item._id!}
+          contentContainerStyle={styles.list}
           renderItem={({ item }) => {
             let imagePath = `${RNFetchBlob.fs.dirs.DocumentDir}${item.imgPath}`;
             return (
@@ -56,7 +54,7 @@ export class AccountListScene extends React.Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.LightBg,
   },
   header: {
     height: 44,
@@ -64,5 +62,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  list: {
+    paddingHorizontal: 15,
   },
 });

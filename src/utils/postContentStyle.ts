@@ -4,5 +4,9 @@ export const style = `
 .rich_media_tool {
   display: none;
 }
+img {
+  border-radius: 4px !important;
+}
+    
 </style>
 `;

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View, TouchableOpacity, StyleSheet, Image, Text } from 'react-native';
+import { Colors } from '../constants/colors';
 
 export interface Props {
   onPress(): void;
@@ -38,6 +39,9 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingVertical: 15,
+    backgroundColor: Colors.LightContentBg,
+    marginBottom: 10,
+    borderRadius: 8,
   },
   thumbnail: {
     paddingHorizontal: 15,
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
   thumbnailImage: {
     width: 50,
     height: 50,
-    borderRadius: 4,
+    borderRadius: 6,
   },
   text: {
     paddingRight: 15,

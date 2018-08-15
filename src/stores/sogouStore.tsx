@@ -14,13 +14,53 @@ class SogouStore {
   public worker: JSX.Element | null = null;
 
   @observable
+  public searchWorker: JSX.Element | null = null;
+
+  @observable
   public status: string = '';
+
+  @observable
+  public searchStatus: string = '';
 
   @observable
   public isWorkerVisible: boolean = false;
 
+  @observable
+  public isSearchWorkerVisible: boolean = false;
+
   @action
   public searchAccounts = (query: string): Promise<ISogouAccountListResult> => {
+    this.searchStatus = '搜索公众号...';
+    return new Promise((resolve, reject) => {
+      this.searchWorker = (
+        <SogouWeb<ISogouAccountListResult>
+          task={Task.GetAccountList}
+          resource={query}
+          onResult={(data) => {
+            this.hideSearchWorker();
+            resolve(data);
+          }}
+          onError={(err) => {
+            this.hideSearchWorker();
+            reject(err);
+          }}
+          onEnd={() => {
+            this.hideSearchWorker();
+            this.killSearchWorker();
+          }}
+          onVerify={() => {
+            this.showSearchWorker();
+          }}
+          onPageChange={() => {
+            this.hideSearchWorker();
+          }}
+        />
+      );
+    });
+  };
+
+  @action
+  private searchAccountList = (query: string): Promise<ISogouAccountListResult> => {
     this.status = '搜索公众号...';
     return new Promise((resolve, reject) => {
       this.worker = (
@@ -51,7 +91,10 @@ class SogouStore {
   };
 
   @action
-  public getPostList = (url: string, accountName: string): Promise<ISogouAccountPostListResult> => {
+  private getPostList = (
+    url: string,
+    accountName: string
+  ): Promise<ISogouAccountPostListResult> => {
     this.status = `获取公众号${accountName}的最新文章...`;
     return new Promise((resolve, reject) => {
       this.worker = (
@@ -79,7 +122,7 @@ class SogouStore {
   };
 
   @action
-  public getPostContent = (url: string, title: string): Promise<string> => {
+  private getPostContent = (url: string, title: string): Promise<string> => {
     this.status = `下载${normalizeText(title)}...`;
     return new Promise((resolve, reject) => {
       this.worker = (
@@ -113,7 +156,7 @@ class SogouStore {
 
     for (let account of accounts) {
       try {
-        let accountList = await this.searchAccounts(account.account);
+        let accountList = await this.searchAccountList(account.account);
         if (accountList.items.length === 0) {
           throw new Error('Cannot find targeting account.');
         }
@@ -155,13 +198,29 @@ class SogouStore {
   };
 
   @action
+  private killSearchWorker = () => {
+    this.searchStatus = '';
+    this.worker = null;
+  };
+
+  @action
   private showWorker = () => {
     this.isWorkerVisible = true;
   };
 
   @action
+  private showSearchWorker = () => {
+    this.isSearchWorkerVisible = true;
+  };
+
+  @action
   public hideWorker = () => {
     this.isWorkerVisible = false;
+  };
+
+  @action
+  public hideSearchWorker = () => {
+    this.isSearchWorkerVisible = false;
   };
 }
 

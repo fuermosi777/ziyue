@@ -1,20 +1,11 @@
 import * as React from 'react';
-import {
-  SafeAreaView,
-  WebView,
-  StyleSheet,
-  ActivityIndicator,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { SafeAreaView, WebView, StyleSheet } from 'react-native';
 import { NavigationTransitionProps as Props } from 'react-navigation';
 import { IPostDoc } from '../interfaces/post';
 import RNFetchBlob from 'rn-fetch-blob';
 import { style as postStyle } from '../utils/postContentStyle';
-import { postStore } from '../stores/postStore';
-import { Icon } from '../components/Icon';
-import { Image } from '../enums/image';
 import { Colors } from '../constants/colors';
+import { postStore } from '../stores/postStore';
 
 interface State {
   html: string;
@@ -32,7 +23,6 @@ export class PostScene extends React.Component<Props, State> {
     this.loadHtml(post);
   }
   private handleLoad = async () => {
-    console.log('end');
     const post: IPostDoc = this.props.navigation.getParam('post');
     try {
       await postStore.readPost(post);
@@ -64,14 +54,6 @@ export class PostScene extends React.Component<Props, State> {
             onLoadStart={this.handleLoad}
           />
         ) : null}
-        <TouchableOpacity
-          onPress={() => {
-            this.props.navigation.goBack();
-          }}>
-          <View style={styles.backButton}>
-            <Icon icon={Image.LeftArrow} style={styles.backIcon} width={16} height={16} />
-          </View>
-        </TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -81,25 +63,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-  },
-  backButton: {
-    position: 'absolute',
-    width: 44,
-    height: 44,
-    right: 20,
-    bottom: 40,
-    borderRadius: 22,
-    backgroundColor: Colors.LightContentBg,
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    // shadow
-    shadowColor: Colors.MainText,
-    shadowOpacity: 0.3,
-    shadowOffset: {
-      width: 0.35,
-      height: 0.35,
-    },
   },
   backIcon: {
     tintColor: Colors.Blue,
